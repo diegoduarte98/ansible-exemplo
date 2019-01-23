@@ -19,6 +19,16 @@
       repo: deb [arch=amd64] https://download.docker.com/linux/debian stretch stable
       state: present
 
+  - name: Add VSCode ASC key
+    apt_key: 
+      url: https://packages.microsoft.com/keys/microsoft.asc
+      state: present
+  
+  - name: Add VSCode repository
+    apt_repository:
+      repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
+      state: present
+
   - name: Install Stack
     apt: 
       name: "{{ item }}"
@@ -32,7 +42,10 @@
       - apt-transport-https
       - ca-certificates
       - curl
+      - wget
       - software-properties-common
       - docker-ce
       - docker-compose
+      - nodejs
+      - code
     become: yes
