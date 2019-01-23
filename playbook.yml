@@ -29,12 +29,18 @@
       repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
       state: present
 
+  - name: Add Node repository
+    shell: curl -sL https://deb.nodesource.com/setup_{{ node_version }}.x -o nodesource_setup.sh && bash nodesource_setup.sh
+    become: yes
+    vars:
+      node_version: 10
+
   - name: Install Stack
     apt: 
       name: "{{ item }}"
       update-cache: yes
       force_apt_get: yes
-      state: present
+      state: latest
     with_items:
       - git
       - oracle-java8-installer
