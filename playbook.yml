@@ -1,0 +1,24 @@
+---
+- name: Rodando....
+  hosts: all
+  become: yes
+
+  tasks:
+  
+  #- name: "UPDATE"
+   # apt: update_cache=yes
+
+  #- name: "UPGRADE"
+   # apt: upgrade=yes
+
+  - name: Add repo for java 8
+    apt_repository: 
+      repo: ppa:webupd8team/java 
+      state: present
+
+  - name: Install java 8
+    apt: 
+      name: oracle-java8-installer 
+      state: latest 
+      update-cache: yes 
+    become: yes
