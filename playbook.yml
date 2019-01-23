@@ -4,21 +4,35 @@
   become: yes
 
   tasks:
-  
-  #- name: "UPDATE"
-   # apt: update_cache=yes
-
-  #- name: "UPGRADE"
-   # apt: upgrade=yes
-
   - name: Add repo for java 8
     apt_repository: 
       repo: ppa:webupd8team/java 
       state: present
+  
+  - name: Add Docker GPG key
+    apt_key: 
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
 
-  - name: Install java 8
+  - name: Add Docker APT repository
+    apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/debian stretch stable
+      state: present
+
+  - name: Install Stack
     apt: 
-      name: oracle-java8-installer 
-      state: latest 
-      update-cache: yes 
+      name: "{{ item }}"
+      update-cache: yes
+      force_apt_get: yes
+      state: present
+    with_items:
+      - git
+      - oracle-java8-installer
+      - maven
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+      - docker-ce
+      - docker-compose
     become: yes
