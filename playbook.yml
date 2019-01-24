@@ -19,7 +19,7 @@
       repo: deb [arch=amd64] https://download.docker.com/linux/debian stretch stable
       state: present
 
-  - name: Add VSCode ASC key
+  - name: Add VSCode ASC key 
     apt_key: 
       url: https://packages.microsoft.com/keys/microsoft.asc
       state: present
@@ -30,10 +30,12 @@
       state: present
 
   - name: Add Node repository
-    shell: curl -sL https://deb.nodesource.com/setup_{{ node_version }}.x -o nodesource_setup.sh && bash nodesource_setup.sh
+    shell: curl -sL https://deb.nodesource.com/setup_{{ node_version }}.x | bash -
     become: yes
     vars:
       node_version: 10
+    args:
+      warn: False
 
   - name: Install Stack
     apt: 
@@ -54,4 +56,8 @@
       - docker-compose
       - nodejs
       - code
+      - slack
+      - terminator
+      - snapd 
+      - snapd-xdg-open
     become: yes
