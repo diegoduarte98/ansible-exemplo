@@ -4,10 +4,12 @@
   become: yes
 
   tasks:
-  - name: Add repo for java 8
-    apt_repository: 
-      repo: ppa:webupd8team/java 
-      state: present
+
+  - name: Install SDKMAN
+    shell: curl -s "https://get.sdkman.io" | bash && source "$HOME/.sdkman/bin/sdkman-init.sh"
+    become: yes
+    args:
+      warn: False
   
   - name: Add Docker GPG key
     apt_key: 
@@ -33,7 +35,7 @@
     shell: curl -sL https://deb.nodesource.com/setup_{{ node_version }}.x | bash -
     become: yes
     vars:
-      node_version: 10
+      node_version: 16
     args:
       warn: False
 
@@ -44,8 +46,9 @@
       force_apt_get: yes
       state: latest
     with_items:
+      - terminator
+      - zsh
       - git
-      - oracle-java8-installer
       - maven
       - apt-transport-https
       - ca-certificates
@@ -56,8 +59,12 @@
       - docker-compose
       - nodejs
       - code
-      - slack
-      - terminator
       - snapd 
       - snapd-xdg-open
     become: yes
+  
+  - name: Install Ohmyzsh
+    shell: sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    become: yes
+    args:
+      warn: False
