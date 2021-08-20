@@ -6,7 +6,7 @@
   tasks:
 
   - name: Install SDKMAN
-    shell: curl -s "https://get.sdkman.io" | bash && source "$HOME/.sdkman/bin/sdkman-init.sh"
+    command: curl -s "https://get.sdkman.io" | bash && source "$HOME/.sdkman/bin/sdkman-init.sh"
     become: yes
     args:
       warn: False
